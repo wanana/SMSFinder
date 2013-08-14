@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class SearchResultActivity extends Activity {
     private ListView mListView;
@@ -55,7 +56,7 @@ public class SearchResultActivity extends Activity {
             Cursor cursor = testMsg.getCursorByKeyword(query);
 
             // Specify the columns we want to display in the result
-            String[] from = new String[] { SMSMessage.PERSON, SMSMessage.DATE,
+            String[] from = new String[] { SMSMessage.ADDRESS, SMSMessage.DATE,
                     SMSMessage.BODY };
 
             // Specify the corresponding layout elements where we want the
@@ -68,7 +69,21 @@ public class SearchResultActivity extends Activity {
             SimpleCursorAdapter words = new SimpleCursorAdapter(this,
                     R.layout.result, cursor, from, to);
             mListView.setAdapter(words);
+            mListView.setOnItemClickListener(new OnItemClickListener() {
 
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                        int position, long id) {
+                    TextView addressView = (TextView) view
+                            .findViewById(R.id.person);
+                    Intent smsIntent = new Intent(
+                            android.content.Intent.ACTION_VIEW);
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    smsIntent.putExtra("address", addressView.getText());
+                    // smsIntent.putExtra("sms_body", "456");
+                    startActivity(Intent.createChooser(smsIntent, "SMS:"));
+                }
+            });
         }
     }
 
