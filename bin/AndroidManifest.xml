@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.wanana.smssearch.SMSDetailsActivity"
+            android:name="me.wanana.smssearch.MessageDetailsActivity"
             android:label="@string/title_activity_smsdetails" >
         </activity>
     </application>

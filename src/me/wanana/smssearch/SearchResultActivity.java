@@ -1,7 +1,7 @@
 package me.wanana.smssearch;
 
-import me.wanana.smssearch.content.SMSContentSearcher;
-import me.wanana.smssearch.content.SMSMessage;
+import me.wanana.smssearch.search.SMSContentSearcher;
+import me.wanana.smssearch.search.IMessageColumns;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -56,8 +56,8 @@ public class SearchResultActivity extends Activity {
             Cursor cursor = testMsg.getCursorByKeyword(query);
 
             // Specify the columns we want to display in the result
-            String[] from = new String[] { SMSMessage.ADDRESS, SMSMessage.DATE,
-                    SMSMessage.BODY };
+            String[] from = new String[] { IMessageColumns.ADDRESS, IMessageColumns.DATE,
+                    IMessageColumns.BODY };
 
             // Specify the corresponding layout elements where we want the
             // columns to go

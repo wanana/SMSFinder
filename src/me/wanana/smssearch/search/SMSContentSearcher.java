@@ -1,6 +1,7 @@
-package me.wanana.smssearch.content;
+package me.wanana.smssearch.search;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -16,6 +17,15 @@ public class SMSContentSearcher {
 
     public SMSContentSearcher(ContentResolver ConResolver) {
         resolver = ConResolver;
+    }
+
+    // TODO
+    public String[] getMessagesByDateRange(Date from, Date to) {
+        return null;
+    }
+
+    public String[] getMessagesSinceDate(Date from) {
+        return getMessagesByDateRange(from, new Date());
     }
 
     public String getMessage(int limit) {

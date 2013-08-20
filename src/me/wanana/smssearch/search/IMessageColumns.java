@@ -1,13 +1,13 @@
 //SMSMessage.java
 
-package me.wanana.smssearch.content;
+package me.wanana.smssearch.search;
 
 /**
  * 
  * @author wanana
  * @date Aug 14, 2013 4:00:01 PM
  */
-public class SMSMessage {
+public interface IMessageColumns {
 
     public static String ID = "_id";
 
