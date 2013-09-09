@@ -49,7 +49,11 @@ public class SearchResultActivity extends Activity {
     }
 
     private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//    	if (Intent.ACTION_VIEW.equals(intent.getAction())) £û
+//    	
+//    	£ý
+    	
+    	 if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             SMSContentSearcher testMsg = new SMSContentSearcher(
                     getContentResolver());
