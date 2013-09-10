@@ -19,7 +19,11 @@ import android.util.Log;
  * @date Aug 20, 2013 5:16:32 PM
  */
 public class MessageProvider extends ContentProvider {
-	String TAG = "MessageFinderProvider";
+	
+    public static final Uri CONTENT_URI =
+            Uri.parse("content://sms");
+    
+    String TAG = "MessageFinderProvider";
 
 	public static String AUTHORITY = MessageProvider.class.getName();
 

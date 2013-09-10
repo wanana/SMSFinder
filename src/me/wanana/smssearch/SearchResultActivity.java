@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -49,26 +50,34 @@ public class SearchResultActivity extends Activity {
     }
 
     private void handleIntent(Intent intent) {
-//    	if (Intent.ACTION_VIEW.equals(intent.getAction())) £û
-//    	
-//    	£ý
-    	
-    	 if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+        // if (Intent.ACTION_VIEW.equals(intent.getAction())){
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            final String query = intent.getStringExtra(SearchManager.QUERY);
+
+            // Intent smsIntent = new Intent();
+            //
+            // ComponentName comp2 = new ComponentName("com.android.mms",
+            // "com.android.mms.ui.SearchActivity");
+            //
+            // smsIntent.setAction("android.intent.action.SEARCH");
+            // smsIntent.setComponent(comp2);
+            //
+            // intent.putExtra(SearchManager.QUERY, query);
+            //
+            // startActivity(smsIntent);
+
             SMSContentSearcher testMsg = new SMSContentSearcher(
                     getContentResolver());
             Cursor cursor = testMsg.getCursorByKeyword(query);
 
             // Specify the columns we want to display in the result
-            String[] from = new String[] { IMessageColumns.ADDRESS, IMessageColumns.DATE,
-                    IMessageColumns.BODY };
+            String[] from = new String[] { IMessageColumns.THREAD_ID,
+                    IMessageColumns.ID, IMessageColumns.ADDRESS,
+                    IMessageColumns.DATE, IMessageColumns.BODY };
 
-            // Specify the corresponding layout elements where we want the
-            // columns to go
-            int[] to = new int[] { R.id.person, R.id.date, R.id.body };
-
-            // Create a simple cursor adapter for the definitions and apply them
-            // to the ListView
+            int[] to = new int[] { R.id.thread_id, R.id.id, R.id.person,
+                    R.id.date, R.id.body };
 
             SimpleCursorAdapter words = new SimpleCursorAdapter(this,
                     R.layout.result, cursor, from, to);
@@ -80,14 +89,28 @@ public class SearchResultActivity extends Activity {
                         int position, long id) {
                     TextView addressView = (TextView) view
                             .findViewById(R.id.person);
-                    Intent smsIntent = new Intent(
-                            android.content.Intent.ACTION_VIEW);
-                    smsIntent.setType("vnd.android-dir/mms-sms");
-                    smsIntent.putExtra("address", addressView.getText());
-                    // smsIntent.putExtra("sms_body", "456");
-                    startActivity(Intent.createChooser(smsIntent, "SMS:"));
+                    TextView threadIdView = (TextView) view
+                            .findViewById(R.id.thread_id);
+                    TextView idView = (TextView) view.findViewById(R.id.id);
+                    Intent smsIntent = new Intent();
+                    // smsIntent.setType("vnd.android-dir/mms-sms");
+
+                    ComponentName comp = new ComponentName("com.android.mms",
+                            "com.android.mms.ui.ComposeMessageActivity");
+                    smsIntent.setComponent(comp);
+                    smsIntent.setAction("android.intent.action.VIEW");
+
+                    // smsIntent.putExtra("address", addressView.getText());
+                    smsIntent.putExtra("thread_id",
+                            Long.valueOf(threadIdView.getText().toString()));
+                    smsIntent.putExtra("select_id",
+                            Long.valueOf(idView.getText().toString())); //
+                    smsIntent.putExtra("highlight", query);
+                    // startActivity(Intent.createChooser(smsIntent, "SMS:"));
+                    startActivity(smsIntent);
                 }
             });
+
         }
     }
 
