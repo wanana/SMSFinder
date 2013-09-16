@@ -1,10 +1,11 @@
-package me.wanana.smssearch;
+package me.wanana.smssearch.activities;
 
+import me.wanana.smssearch.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class MessageDetailsActivity extends Activity {
+public class MessageDetails extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

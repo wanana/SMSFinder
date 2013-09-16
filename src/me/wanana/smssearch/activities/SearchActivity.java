@@ -1,30 +1,27 @@
-package me.wanana.smssearch;
+package me.wanana.smssearch.activities;
 
-import me.wanana.smssearch.search.SMSContentSearcher;
-import me.wanana.smssearch.search.IMessageColumns;
-import android.net.Uri;
-import android.os.Bundle;
+
+
+import me.wanana.smssearch.R;
+import me.wanana.smssearch.content.MessageProvider;
+import me.wanana.smssearch.content.SMSContentData;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
-
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-public class SearchResultActivity extends Activity {
+public class SearchActivity extends Activity {
     private ListView mListView;
 
     @Override
@@ -38,21 +35,12 @@ public class SearchResultActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // Because this activity has set launchMode="singleTop", the system
-        // calls this method
-        // to deliver the intent if this activity is currently the foreground
-        // activity when
-        // invoked again (when the user executes a search from this activity, we
-        // don't create
-        // a new instance of this activity, so the system delivers the search
-        // intent here)
+       
         handleIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
-        // if (Intent.ACTION_VIEW.equals(intent.getAction())){
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             final String query = intent.getStringExtra(SearchManager.QUERY);
 
             // Intent smsIntent = new Intent();
@@ -67,14 +55,18 @@ public class SearchResultActivity extends Activity {
             //
             // startActivity(smsIntent);
 
-            SMSContentSearcher testMsg = new SMSContentSearcher(
-                    getContentResolver());
-            Cursor cursor = testMsg.getCursorByKeyword(query);
+            
+            Cursor cursor = managedQuery(MessageProvider.CONTENT_URI, null, null,
+                    new String[] {query}, null);
+            
+            // SMSContentSearcher testMsg = new SMSContentSearcher(
+            // getContentResolver());
+            // Cursor cursor = testMsg.getCursor(query);
 
             // Specify the columns we want to display in the result
-            String[] from = new String[] { IMessageColumns.THREAD_ID,
-                    IMessageColumns.ID, IMessageColumns.ADDRESS,
-                    IMessageColumns.DATE, IMessageColumns.BODY };
+            String[] from = new String[] { SMSContentData.MessageColumns.THREAD_ID,
+                    SMSContentData.MessageColumns.ID, SMSContentData.MessageColumns.ADDRESS,
+                    SMSContentData.MessageColumns.DATE, SMSContentData.MessageColumns.BODY };
 
             int[] to = new int[] { R.id.thread_id, R.id.id, R.id.person,
                     R.id.date, R.id.body };
@@ -93,11 +85,11 @@ public class SearchResultActivity extends Activity {
                             .findViewById(R.id.thread_id);
                     TextView idView = (TextView) view.findViewById(R.id.id);
                     Intent smsIntent = new Intent();
-                    // smsIntent.setType("vnd.android-dir/mms-sms");
+                    smsIntent.setType("vnd.android-dir/mms-sms");
 
-                    ComponentName comp = new ComponentName("com.android.mms",
-                            "com.android.mms.ui.ComposeMessageActivity");
-                    smsIntent.setComponent(comp);
+                    //ComponentName comp = new ComponentName("com.android.mms",
+                      //      "com.android.mms.ui.ComposeMessageActivity");
+                    //smsIntent.setComponent(comp);
                     smsIntent.setAction("android.intent.action.VIEW");
 
                     // smsIntent.putExtra("address", addressView.getText());

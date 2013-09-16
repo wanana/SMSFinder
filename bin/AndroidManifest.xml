@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="me.wanana.smssearch.SearchResultActivity"
+            android:name="me.wanana.smssearch.activities.SearchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
@@ -36,14 +36,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.wanana.smssearch.MessageDetailsActivity"
+            android:name="me.wanana.smssearch.activities.MessageDetails"
             android:label="@string/title_activity_smsdetails" >
         </activity>
 
         <provider
-            android:name="me.wanana.smssearch.MessageProvider"
-            android:authorities="me.wanana.smssearch.MessageProvider" 
+            android:name="me.wanana.smssearch.content.MessageProvider"
+            android:authorities="me.wanana.smssearch.content.MessageProvider" 
             android:exported="true"/>
+       
     </application>
 
 </manifest>
